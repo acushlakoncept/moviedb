@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { createMovie } from "../actions"
 import DisplayModal from "./modal"
 import MovieCreateForm from "./movieCreateForm"
@@ -6,12 +7,14 @@ import MovieCreateForm from "./movieCreateForm"
 
 const SideMenu = ({categories}) => {
   let modal = null
+  const router = useRouter();
 
   const handleCreateMovie = (movie) => {
     createMovie(movie).then(movies => {
-        console.log(JSON.stringify(movies))
+      modal.handleClose();
+      router.push("/")
     })
-    modal.handleClose();
+    
   }
 
   return (
