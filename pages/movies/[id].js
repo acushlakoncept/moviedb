@@ -1,12 +1,18 @@
 
 import { useRouter } from "next/router"
-import { Jumbotron, Button, Container } from "react-bootstrap"
-import { getMovieById } from "../../actions"
+import { Button, Container } from "react-bootstrap"
+import { getMovieById, deleteMovie } from "../../actions"
 
 const Movie = (props) => {
   const router = useRouter()
   const { id } = router.query
   const { movie } = props
+
+  const handleDeleteMovie = id => {
+    deleteMovie(id).then(movies => {
+      router.push("/")
+    })
+  }
 
   return (
     <Container>
@@ -16,7 +22,10 @@ const Movie = (props) => {
       <hr className="my-4" />
       <p>{movie.genre}</p>
       <p>
-        <Button bsStyle="primary">Learn more</Button>
+        <Button variant="primary" >Learn more</Button>
+        <Button 
+          onClick={() => handleDeleteMovie(movie.id)}
+          variant="danger" className="ms-2">Delete</Button>
       </p>
       </div>
       <p className="desc-text">
