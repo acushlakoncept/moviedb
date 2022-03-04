@@ -9,7 +9,10 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const moviesData = require('./data.json');
+const fs = require('fs');
+const path = require('path');
+const filePath = './data.json';
+const moviesData = require(filePath);
 
 app.prepare().then(() => {
 
@@ -22,8 +25,25 @@ app.prepare().then(() => {
 
   server.post('/api/v1/movies', (req, res) => {
     const movie = req.body;
-    console.log(JSON.stringify(movie));
-    return res.json({message: "Saving Post"});
+    moviesData.push(movie);
+    console.log(moviesData);
+
+    const pathToFile = path.join(__dirname, filePath);
+    const stringifyData = JSON.stringify(moviesData, null, 2);
+
+    fs.writeFile(pathToFile, stringifyData, (err) => {
+      if (err) {
+        return res.status(422).send(err)
+      }
+
+      return res.json('Movie added successfully');
+    })
+  })
+
+  server.get('/api/v1/movies/:id', (req, res) => {
+    const { id } = req.params;
+    const movie = moviesData.find(movie => movie.id === id);
+    return res.json(movie);
   })
 
   server.patch('/api/v1/movies/:id', (req, res) => {
@@ -33,7 +53,19 @@ app.prepare().then(() => {
 
   server.delete('/api/v1/movies/:id', (req, res) => {
     const { id } = req.params;
-    return res.json({message: `Deleting Movie ${id}`});
+    const movieIndex = moviesData.findIndex(movie => movie.id === id);
+    moviesData.splice(movieIndex, 1);
+
+    const pathToFile = path.join(__dirname, filePath);
+    const stringifyData = JSON.stringify(moviesData, null, 2);
+
+    fs.writeFile(pathToFile, stringifyData, (err) => {
+      if (err) {
+        return res.status(422).send(err)
+      }
+
+      return res.json('Movie deleted successfully');
+    })
   })
 
   server.get('*', (req, res) => {
