@@ -2,15 +2,20 @@ import { useState } from "react"
 import { Button } from "react-bootstrap"
 
 
-const MovieCreateForm = ({handleFormSubmit}) => {
-  const [form, setForm] = useState({
+const MovieCreateForm = ({handleFormSubmit, isInitialData}) => {
+
+  const defaultData = {
     name: "",
     description: "",
     rating: "",
     image: "",
     cover: "",
     longDesc: "",
-  })
+  }
+
+  const formData = isInitialData ? {...isInitialData} : defaultData
+
+  const [form, setForm] = useState(formData)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -30,8 +35,6 @@ const MovieCreateForm = ({handleFormSubmit}) => {
 
   const submitForm = (e) => {
     handleFormSubmit({...form})
-    // console.log(e.target.parentNode.parentNode.parentNode.parentNode.parentNode)
-    // e.target.parentNode.parentNode.parentNode.parentNode.parentNode.classList.remove('show')
   }
 
   return (
@@ -112,7 +115,9 @@ const MovieCreateForm = ({handleFormSubmit}) => {
           <option>action</option>
         </select>
       </div>
-      <Button variant="primary" onClick={submitForm}>
+      <Button 
+        className="my-3"
+        variant="primary" onClick={submitForm}>
             Create Movie
       </Button>
     </form>

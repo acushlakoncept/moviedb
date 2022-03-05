@@ -1,7 +1,7 @@
 
 import { useRouter } from "next/router"
 import { Button, Container } from "react-bootstrap"
-import { getMovieById, deleteMovie } from "../../actions"
+import { getMovieById, deleteMovie } from "../../../actions"
 
 const Movie = (props) => {
   const router = useRouter()
@@ -22,14 +22,16 @@ const Movie = (props) => {
       <hr className="my-4" />
       <p>{movie.genre}</p>
       <p>
-        <Button variant="primary" >Learn more</Button>
+        <Button
+         onClick={() => router.push(`/movies/${id}/edit`)}
+         variant="warning" >Edit</Button>
         <Button 
           onClick={() => handleDeleteMovie(movie.id)}
           variant="danger" className="ms-2">Delete</Button>
       </p>
       </div>
       <p className="desc-text">
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        {movie.longDesc}
       </p>
       <style jsx>{`
         .desc-text {
