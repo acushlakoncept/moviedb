@@ -20,7 +20,7 @@ yarn dev
 - NextJS
 
 ## Live Demo
-[Live Demo Link](http://uduakessien.com)
+[Live Demo Link](https://moviedb-liard.vercel.app/)
 
 ## Getting Started
 
