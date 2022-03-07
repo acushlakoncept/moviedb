@@ -14,11 +14,6 @@ const categories = [
 
 
 export const getMovies = () => {
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     resolve(movieData)
-  //   }, 100)
-  // })
   return axios.get(`${BASE_URL}/api/v1/movies`).then(res => res.data)
 }
 
