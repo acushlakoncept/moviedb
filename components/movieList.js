@@ -26,6 +26,7 @@ const MovieList = ({ movies }) => {
                   <a href="#">{movie.name}</a>
                   </Link>
                 </Card.Title>
+                <div><em>{movie.genre}</em></div>
                 <Card.Text>
                   {shorten(movie.description, 100)}
                 </Card.Text>
