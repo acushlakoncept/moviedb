@@ -1,9 +1,11 @@
+import Router from "next/router";
 import React from "react";
 import { Container } from "react-bootstrap";
-import { getMovieById } from "../../../actions";
+import { getMovieById, updateMovie } from "../../../actions";
 import MovieCreateForm from "../../../components/movieCreateForm";
 
 class EditMovie extends React.Component {
+
 
   static async getInitialProps({ query }) {
     const movie = await getMovieById(query.id)
@@ -11,31 +13,23 @@ class EditMovie extends React.Component {
     return { movie }
   }
 
-  // state = {
-  //     movie: {
-  //       name: "",
-  //       description: "",
-  //       rating: "",
-  //       image: "",
-  //       cover: "",
-  //       longDesc: "",
-  //     }
-  // }
+  handleUpdateMovie = (movie) => {
+    updateMovie(movie).then(updatedMovie => {
+      Router.push(`/movies/${movie.id}`)
+    })
+  }
 
-
-  // componentDidMount() {
-  //   const { id } = this.props.query
-  //   getMovieById(id).then(movie => {
-  //     this.setState({ movie })
-  //   })
-  // }
 
   render() {
     const { movie } = this.props
     return (
       <Container>
         <h1>Edit Movie</h1>
-        <MovieCreateForm isInitialData={movie} />
+        <MovieCreateForm
+        submitBtnText="Update Movie" 
+        isInitialData={movie}
+        handleFormSubmit={this.handleUpdateMovie}
+         />
       </Container>
     );
   }

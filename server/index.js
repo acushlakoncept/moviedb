@@ -68,6 +68,25 @@ app.prepare().then(() => {
     })
   })
 
+  server.put('/api/v1/movies/:id', (req, res) => {
+    const { id } = req.params;
+    const movie = req.body
+    const movieIndex = moviesData.findIndex(m => m.id === id);
+    
+    moviesData[movieIndex] = movie;
+
+    const pathToFile = path.join(__dirname, filePath);
+    const stringifyData = JSON.stringify(moviesData, null, 2);
+
+    fs.writeFile(pathToFile, stringifyData, (err) => {
+      if (err) {
+        return res.status(422).send(err)
+      }
+
+      return res.json('Movie updated successfully');
+    })
+  })
+
   server.get('*', (req, res) => {
     return handle(req, res);
   })

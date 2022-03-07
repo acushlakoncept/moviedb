@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button } from "react-bootstrap"
 
 
-const MovieCreateForm = ({handleFormSubmit, isInitialData}) => {
+const MovieCreateForm = ({handleFormSubmit, isInitialData, submitBtnText}) => {
 
   const defaultData = {
     name: "",
@@ -118,7 +118,7 @@ const MovieCreateForm = ({handleFormSubmit, isInitialData}) => {
       <Button 
         className="my-3"
         variant="primary" onClick={submitForm}>
-            Create Movie
+            {submitBtnText || 'Create Movie'}
       </Button>
     </form>
   )
